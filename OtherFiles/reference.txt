@@ -19,3 +19,8 @@ https://www.sejuku.net/blog/53555#index_id1
 【Unity入門】効果音(SE)の鳴らし方!複数管理する場合についても!
 https://www.sejuku.net/blog/83535?utm_source=blog&utm_medium=blog&utm_campaign=blog__83569
 
+Stylized Hand Painted Dungeon (Free)
+https://assetstore.unity.com/packages/3d/environments/stylized-hand-painted-dungeon-free-173934
+
+効果音ラボ　戦闘[1]
+https://soundeffect-lab.info/sound/battle/

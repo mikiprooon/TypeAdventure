@@ -9,15 +9,17 @@ public class PlayerController : MonoBehaviour
 
     private TextController _enemyTextController; // enemyのTextControllerへの参照
 
-    // 効果音の設定
-    public AudioClip missSound; // ミスした時
-    public AudioClip attackSound; // 正しい文字を打ち込んだ時
-    public AudioClip defeatSound; // 敵を倒した時
-    private AudioSource _audioSource;
-
+    private GameObject _enemy;
+    private string _answer;
     void Start()
     {   
-        _audioSource = GetComponent<AudioSource>(); // audioコンポーネントを取得
+        // enemyを設定
+        _enemy = GameObject.FindWithTag("Enemy");
+        // enemyの持つTextControllerを設定
+        _enemyTextController = _enemy.transform.Find("Canvas/Image").GetComponent<TextController>();
+        // 答えとなる文字を取得
+        _answer = _enemyTextController.GetAnswerText();
+        Debug.Log(_answer);
     }
     void Update()
     {
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
             HandleMovement(); // 平行移動
             HandleRotation(); // 回転
         }
+
     }
 
     // playerのタイピング処理
@@ -41,38 +44,69 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        //
         // "Enemy"タグを持つオブジェクトを検索
-        GameObject enemy = GameObject.FindWithTag("Enemy");
+        //GameObject enemy = GameObject.FindWithTag("Enemy");
         // enemyの持つTextControllerを取得
-        if(enemy != null){
-            _enemyTextController = enemy.transform.Find("Canvas/Image").GetComponent<TextController>();
-        }
-        else{
-            Debug.LogError("takenekoオブジェクトが見つかりませんでした。");
-        }
-
-        string answer = _enemyTextController.GetAnswerText(); // 答えを取得
-
+        // if(enemy != null){
+        //     _enemyTextController = enemy.transform.Find("Canvas/Image").GetComponent<TextController>();
+        // }
+        // else{
+        //     Debug.LogError("takenekoオブジェクトが見つかりませんでした。");
+        // }
+        //string answer = _enemyTextController.GetAnswerText(); // 答えを取得
+        
         // 入力されたキーが答えと一致しているなら
-        if(Input.GetKeyDown(answer[_currentCharIndex].ToString())){
-            Debug.Log("正解");
+        if(Input.GetKeyDown(_answer[_currentCharIndex].ToString())){
+            InputCorrecKey(); //正しい時の処理
+        }
+        // 間違えた入力なら
+        else if(Input.anyKeyDown){
+            InputWrongKey(); //誤った時の処理
+        }
+
+    }
+
+    // private string GetAnswerText(){
+    //     // "Enemy"タグを持つオブジェクトを検索
+    //     //GameObject enemy = GameObject.FindWithTag("Enemy");
+    //     // enemyの持つTextControllerを取得
+    //     if(_enemy != null){
+    //         _enemyTextController = _enemy.transform.Find("Canvas/Image").GetComponent<TextController>();
+    //     }
+    //     else{
+    //         Debug.LogError("takenekoオブジェクトが見つかりませんでした。");
+    //     }
+    //     return _enemyTextController.GetAnswerText(); // 答えを取得
+    // }
+
+    // 正しいキーの時の処理
+    private void InputCorrecKey(){
+        Debug.Log("正解");
             // 最後の文字を打ち終えたら
-            if(_currentCharIndex + 1 >= answer.Length){
-                Destroy(enemy); // 敵を消す
-                _audioSource.PlayOneShot(defeatSound); // 倒した音
+            if(_currentCharIndex + 1 >= _answer.Length){
+                Destroy(_enemy); // 敵を消す
+                // 敵を倒した音
+                AudioController.Instance.PlaySound(AudioController.Instance.defeatSound);
                 _currentCharIndex = 0; // インデックスを初期化
             }
             // 最後の文字でなければ
             else{
-                _audioSource.PlayOneShot(attackSound); // 攻撃した音
+                // 攻撃音
+                AudioController.Instance.PlaySound(AudioController.Instance.attackSound);
                 _currentCharIndex++; // インデックスを+1
+                // 正解した文字を灰色にする
+                _enemyTextController.ChangeTextColorCorrect(_currentCharIndex); 
             }
-        }
-        else if(Input.anyKeyDown){
-            Debug.Log("不正解");
-            _audioSource.PlayOneShot(missSound); // ミスした音
-        }
+    }
 
+    // 間違ったキーの時の処理
+    private void InputWrongKey(){
+        Debug.Log("不正解");
+        // ミス音
+        AudioController.Instance.PlaySound(AudioController.Instance.missSound);
+        // 間違えた字を赤くする
+        _enemyTextController.ChangeTextColorWrong(_currentCharIndex); 
     }
 
     // playerの移動処理
@@ -114,6 +148,17 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)){
             _typeModeFlag = !_typeModeFlag; // TrueとFalseを切り替える
             Debug.Log(_typeModeFlag);
+            _currentCharIndex = 0; // 文字は最初から入力させる
+            if(_typeModeFlag){ // タイピングモードになった時に答えを取得
+                // enemyを設定
+                _enemy = GameObject.FindWithTag("Enemy");
+                // enemyの持つTextControllerを設定
+                _enemyTextController = _enemy.transform.Find("Canvas/Image").GetComponent<TextController>();
+                // 答えを設定
+                _answer = _enemyTextController.GetAnswerText();
+            }
         }
     }
+
+    // ターゲットを決める 
 }
