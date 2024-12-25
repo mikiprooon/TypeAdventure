@@ -1,0 +1,21 @@
+【Unity講座】寿司打風タイピングゲームの作り方 #5 正解処理と問題の変更
+https://www.youtube.com/watch?v=qstZ8ug97zU
+
+Unity TextMeshProのテキストをスクリプトから操作する、変更方法について [ UI text ]
+https://indie-game-creation-with-unity.hatenablog.com/entry/text-mesh-pro-assign-to-text
+
+ワールド空間に文字を表示する
+https://nn-hokuson.hatenablog.com/entry/2016/12/20/201832
+
+【Unity】文字列の長さによってテキストボックスのサイズを変える
+https://qiita.com/Rinaya/items/52cd4fd00ec04a85d693
+
+Unityのフォント追加方法・TextMeshProを日本語で使う方法
+https://yurinchi2525.com/2023011howtoaddtextmeshpro/#google_vignette
+
+Unity入門】Destroyを完全攻略!初心者必見の便利テクも一覧まとめ
+https://www.sejuku.net/blog/53555#index_id1
+
+【Unity入門】効果音(SE)の鳴らし方!複数管理する場合についても!
+https://www.sejuku.net/blog/83535?utm_source=blog&utm_medium=blog&utm_campaign=blog__83569
+
