@@ -24,3 +24,12 @@ https://assetstore.unity.com/packages/3d/environments/stylized-hand-painted-dung
 
 効果音ラボ　戦闘[1]
 https://soundeffect-lab.info/sound/battle/
+
+Mochiy Pop One
+https://fonts.google.com/specimen/Mochiy+Pop+One/tester?lang=ja_Jpan
+
+Unity入門】オブジェクトを動的生成!prefabを使いこなそう!
+https://www.sejuku.net/blog/54672
+
+
+
