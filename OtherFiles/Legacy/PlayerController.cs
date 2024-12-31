@@ -28,8 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleTypeModeToggle(); // タイプモードの切り替えを処理
 
-        if (_typeModeFlag) // タイピングモードの時
-        {
+        if (_typeModeFlag){ // タイピングモードの時
             // タイピング処理をTypingSystemControllerに委譲
             _typingSystemController.HandleTyping();
         }
@@ -40,8 +39,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     // ターゲットとなるEnemyを取得する
-    private void SearchClosestEnemy(){
+    public void SearchClosestEnemy(){
         List<GameObject> _enemies = new List<GameObject>();
         _enemies = _enemyGenerator.GetAllEnemies();
         float closestDistance = 10000f;
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
             distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (distance < closestDistance && distance <= 20.0f){
                 _targetEnemy = enemy; // targetに設定
-                closestDistance = Vector3.Distance(transform.position, enemy.transform.position);
+                closestDistance = distance;
             }
         }
     }
@@ -60,13 +60,11 @@ public class PlayerController : MonoBehaviour
     private void HandleTypeModeToggle(){
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)){
             _typeModeFlag = !_typeModeFlag; // TrueとFalseを切り替える
-            Debug.Log(_typeModeFlag);
             if (_typeModeFlag){ // タイピングモードになった時 
                 // targetを探す
                 SearchClosestEnemy();
                 // タイピングシステムを開始
                 _typingSystemController.StartTyping(_targetEnemy);
-                Debug.Log(_targetEnemy);
             }
         }
     }

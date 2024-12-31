@@ -36,6 +36,7 @@ public class TypingSystemController : MonoBehaviour
         {
             InputWrongKey(); // 誤った時の処理
         }
+        Debug.Log(_answer);
     }
 
     // 正しいキーの時の処理

@@ -50,6 +50,8 @@ public class CollisionEventController : MonoBehaviour
         // 例: Enemyを削除
         _enemyGenerator.RemoveEnemy(enemy);
 
+        PlayerController playerController = _player.GetComponent<PlayerController>();
+        playerController.SearchClosestEnemy();
         // ダメージ音
         AudioController.Instance.PlaySound(AudioController.Instance.damageSound);
     }

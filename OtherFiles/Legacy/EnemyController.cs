@@ -27,9 +27,10 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {   
-        CreateQuestion(); // 問題を設定
-        _textController = FindObjectOfType<TextController>();
-        _textController.SetQuestion(_aText, _qText, _mText);
+        _textController = transform.Find("Canvas/Image").GetComponent<TextController>();
+        if (_textController != null){
+            _textController.SetQuestion(_aText, _qText, _mText);
+        }
 
         _agent = GetComponent<NavMeshAgent>(); // NavMeshAgentコンポーネントを取得
         _initialDestination[0] = new Vector3(-0.37f, -0.007f, 9.6f);
@@ -67,7 +68,6 @@ public class EnemyController : MonoBehaviour
             // 目的地へ行く
             MoveToNextPosition(_initialDestination[_currentTargetPositionIndex]); 
         }
-        Debug.Log(transform.forward);
 
     }
 
@@ -114,5 +114,15 @@ public class EnemyController : MonoBehaviour
         _qText = _question[_qNum]; 
         _mText = _meaning[_qNum]; 
  
+    }
+
+    // EnemyGeneratorから受け取る
+    public void SetQuestionData((string answer, string question, string meaning) questionData){
+        _aText = questionData.answer;
+        _qText = questionData.question;
+        _mText = questionData.meaning;
+
+        _textController = transform.Find("Canvas/Image").GetComponent<TextController>();
+        _textController.SetQuestion(_aText, _qText, _mText);
     }
 }
