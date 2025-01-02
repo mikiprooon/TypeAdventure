@@ -20,12 +20,14 @@ public class PlayerStats : MonoBehaviour
     }
 
     private int _hp; // HP
+    private int _attack; // 攻撃力
     private float _moveSpeed; // 移動速度
     private float _rotationSpeed = 120.0f; // 回転速度
 
     // 初期化メソッド
-    public void Initialize(int hp, float moveSpeed){
+    public void Initialize(int hp, int attack, float moveSpeed){
         _hp = hp;       // HPを設定
+        _attack = attack; // 攻撃力を設定
         _moveSpeed = moveSpeed; // スピードを設定
     }
 
@@ -55,6 +57,11 @@ public class PlayerStats : MonoBehaviour
     public void DamageToPlayer(int damage){
         _hp -= damage; // damageの分HPを減らす
         Debug.Log("HP: "+ _hp);
+    }
+
+    // Playerの攻撃力
+    public int GetAttack(){
+        return _attack;
     }
 
     // プレイヤーのHPを取得

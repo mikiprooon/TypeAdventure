@@ -31,5 +31,9 @@ https://fonts.google.com/specimen/Mochiy+Pop+One/tester?lang=ja_Jpan
 Unity入門】オブジェクトを動的生成!prefabを使いこなそう!
 https://www.sejuku.net/blog/54672
 
+【Unity初歩】~敵を増殖させる~
+https://qiita.com/usomaru/items/5b933fa5f6e3c608472c
+
+
 
 

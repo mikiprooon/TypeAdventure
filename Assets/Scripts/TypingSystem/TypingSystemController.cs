@@ -12,12 +12,15 @@ public class TypingSystemController : MonoBehaviour
     private TextController _targetEnemyTextController; // ターゲットの持つTextControlerへの参照
     
     [SerializeField] private GameObject _player; //Player
+    private PlayerStats _playerStats; // PlayerStatsへの参照
     private PlayerController _playerController; //playerControllerへの参照
 
 
     void Start(){
         //PlayerControllerへの参照を取得
         _playerController = _player.GetComponent<PlayerController>(); 
+        //PlayerStatsへの参照を取得
+        _playerStats = _player.GetComponent<PlayerStats>(); 
     }
     // タイピング開始時に呼び出すメソッド
     public void StartTyping(GameObject targetEnemy){
@@ -57,7 +60,7 @@ public class TypingSystemController : MonoBehaviour
         if (_currentCharIndex + 1 >= _answer.Length){
             
             EnemyStats _enemyStats = _targetEnemy.GetComponent<EnemyStats>();
-            _enemyStats.DamageToEnemy(1);
+            _enemyStats.DamageToEnemy(_playerStats.GetAttack());
 
             // インデックスと解答を初期化
             _currentCharIndex = 0; 

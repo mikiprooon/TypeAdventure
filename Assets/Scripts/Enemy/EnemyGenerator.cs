@@ -54,8 +54,9 @@ public class EnemyGenerator : MonoBehaviour{
 
             // HP = 1、speed = 3.0で初期化
             int hp = 1; // HPは1
+            int attack = 1; // 攻撃力は1
             float speed = 3.0f;         // 初期スピードは固定
-            stats.Initialize(hp, speed, qText, aText, mText); // 初期化
+            stats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定
             TextController textController = newEnemy.GetComponentInChildren<TextController>(); // TextControllerを子オブジェクトから取得

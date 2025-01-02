@@ -11,7 +11,8 @@ public class EnemyController : MonoBehaviour
     private GameObject _player; // Player
     private PlayerStats _playerStats; // PlayerStatsへの参照
 
-    private EnemyGenerator _enemyGenerator; // EnemyStatsへの参照
+    private EnemyGenerator _enemyGenerator; // EnemyGeneratorへの参照
+    private EnemyStats _enemyStats; // EnemyStatsへの参照
 
     private Vector3[] _initialDestination = new Vector3[2]; // 初期目的地2つ
     private int _currentTargetPositionIndex = 0; // どちらの初期目的地に向かうか
@@ -23,6 +24,7 @@ public class EnemyController : MonoBehaviour
     {
         // EnemyGeneratorを取得
         _enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        
 
         _agent = GetComponent<UnityEngine.AI.NavMeshAgent>(); // NavMeshAgentコンポーネントを取得
         // 初期目的地を設定
@@ -38,6 +40,10 @@ public class EnemyController : MonoBehaviour
             _player = GameObject.FindWithTag("Player"); // タグで検索
             // PlayerStatsを取得
             _playerStats = _player.GetComponent<PlayerStats>(); 
+        }
+        if(_enemyStats == null){
+            // EnemyStatsを取得
+            _enemyStats = GetComponent<EnemyStats>();
         }
         // playerとの距離を計算
         distance = Vector3.Distance(_player.transform.position, transform.position);
@@ -89,8 +95,9 @@ public class EnemyController : MonoBehaviour
     private void OnPlayerCollision(){
         Debug.Log("Playerと衝突しました！");
 
+        
         // Playerにダメージを与える
-        _playerStats.DamageToPlayer(1); // 1ダメージ
+        _playerStats.DamageToPlayer(_enemyStats.GetAttack()); // 攻撃力分のダメージ
         // ダメージ音
         AudioManager.Instance.PlaySound(AudioManager.Instance.damageSound);
 

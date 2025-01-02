@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerStats = PlayerStats.Instance; // シングルトンインスタンスからPlayerStatsを取得
-        _playerStats.Initialize(10, 8.0f);  // PlayerStatsの初期化(HP, speed)
+        _playerStats.Initialize(10, 1, 8.0f);  // PlayerStatsの初期化(HP, attack, speed)
 
         // TypingSystemControllerへの参照
         _typingSystemController = FindObjectOfType<TypingSystemController>();

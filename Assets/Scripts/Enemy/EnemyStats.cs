@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour{
 
     private int _hp; // HP
+    private int _attack; // 攻撃力
     private float _speed; // スピード
     private string _qText, _aText, _mText; // 問題(漢字)、解答(ローマ字)、読み方(ひらがな)
 
@@ -13,8 +14,9 @@ public class EnemyStats : MonoBehaviour{
 
     private bool _isAlive = true; // Enemyが生きていたらtrue、一度削除されたらfalse
     // 初期化メソッド
-    public void Initialize(int hp, float speed, string qText, string aText, string mText){
+    public void Initialize(int hp, int attack, float speed, string qText, string aText, string mText){
         _hp = hp;       // HPを設定
+        _attack = attack; // 攻撃力を設定
         _speed = speed; // スピードを設定
         _qText = qText; // 問題文を設定
         _aText = aText; // 解答を設定
@@ -47,6 +49,10 @@ public class EnemyStats : MonoBehaviour{
         _hp -= damage;
     }
 
+    // 攻撃力のゲッター
+    public int GetAttack(){
+        return _attack;
+    }
     // 問題、解答、読み方のゲッター関数
     public string GetQText(){
         return _qText;
