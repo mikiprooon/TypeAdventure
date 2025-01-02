@@ -49,6 +49,19 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("撃破数: " + _numOfDefeat);
     }
 
+    // タイプ数/秒を計算し出力
+    public float GetTypesPerSecond(){
+        return _numOfCorrectType / _secondsOfTypingMode;
+    }
+
+    // トータルスコアを計算し出力
+    public float GetTotalScore(){
+        _totalScore = _numOfCorrectType / _secondsOfTypingMode * 10.0f
+                    + _numOfDefeat * 5.0f - _numOfMissType * 5.0f;
+        
+        return _totalScore;
+    }
+
 
     public void AddTypingModeTime(){
         _secondsOfTypingMode += Time.deltaTime;

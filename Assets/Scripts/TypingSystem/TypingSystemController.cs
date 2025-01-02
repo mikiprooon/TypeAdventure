@@ -10,7 +10,8 @@ public class TypingSystemController : MonoBehaviour
 
     private GameObject _targetEnemy; // ターゲットのEnemy
     private TextController _targetEnemyTextController; // ターゲットの持つTextControlerへの参照
-    
+    private EnemyStats _targetEnemyStats; // targetのEnemyStats
+
     [SerializeField] private GameObject _player; //Player
     private PlayerStats _playerStats; // PlayerStatsへの参照
     private PlayerController _playerController; //playerControllerへの参照
@@ -30,10 +31,13 @@ public class TypingSystemController : MonoBehaviour
         _targetEnemy = targetEnemy; // ターゲットのオブジェクトを取得
         // ターゲットのTextControllerを取得
         _targetEnemyTextController = _targetEnemy.transform.Find("Canvas/Image").GetComponent<TextController>();
+        // ターゲットのEnemyStatsを取得
+        _targetEnemyStats = _targetEnemy.GetComponent<EnemyStats>();
         // ターゲットの正解文を取得
         _answer = _targetEnemyTextController.GetAnswerText();
-        _currentCharIndex = 0; // 文字数を初期化
-        _targetEnemyTextController.ChangeTextColorBasic();
+        // 最大HP - 今のHPが、今入力している文字数
+        _currentCharIndex = _targetEnemyStats.GetMaxHP() - _targetEnemyStats.GetHP(); 
+        //_targetEnemyTextController.ChangeTextColorBasic();
 
         _sm = _scoreManager.GetComponent<ScoreManager>(); // ScoreManagerへの参照
 
@@ -60,13 +64,14 @@ public class TypingSystemController : MonoBehaviour
     // 正しいキーの時の処理
     private void InputCorrecKey(){
         Debug.Log("正解");
+
         // 攻撃音
         AudioManager.Instance.PlaySound(AudioManager.Instance.attackSound);
         // 最後の文字を打ち終えたら
         if (_currentCharIndex + 1 >= _answer.Length){
             
-            EnemyStats _enemyStats = _targetEnemy.GetComponent<EnemyStats>();
-            _enemyStats.DamageToEnemy(_playerStats.GetAttack());
+            // Enemyに攻撃力分のダメージ
+            _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
 
             // インデックスと解答を初期化
             _currentCharIndex = 0; 
@@ -75,6 +80,8 @@ public class TypingSystemController : MonoBehaviour
         }
         // 最後の文字でなければ
         else{
+            // Enemyに攻撃力分のダメージ
+            _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
             
             _currentCharIndex++; // インデックスを+1
             // 正解した文字を灰色にする
@@ -92,7 +99,15 @@ public class TypingSystemController : MonoBehaviour
         // 間違えた字を赤くする
         _targetEnemyTextController.ChangeTextColorWrong(_currentCharIndex);
 
-        // ミスタイプ数+1
-        _sm.AddMissType();
+        // 方向キーは間違えて押しそうなのでミスにカウントしない
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) 
+            || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)){
+            return;
+        }
+        else{
+            // ミスタイプ数+1
+            _sm.AddMissType();
+        }
+        
     }
 }

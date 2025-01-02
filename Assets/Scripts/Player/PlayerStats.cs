@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviour
         _maxHp = hp; // 最大HPを設定
         _attack = attack; // 攻撃力を設定
         _moveSpeed = moveSpeed; // スピードを設定
+        transform.position = new Vector3(0f, 1.3757f, 0f);
     }
 
     // Start is called before the first frame update

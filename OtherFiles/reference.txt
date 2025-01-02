@@ -37,6 +37,26 @@ https://qiita.com/usomaru/items/5b933fa5f6e3c608472c
 敵の頭上にHPバーを実装してみる
 https://qiita.com/sakas1231/items/9acd52828204b13c93f1
 
+Unityスコア加算
+https://qiita.com/yuki_0409/items/0eb63eac3641a5a0d5bb
+
+UnityのScene間でのデータの受け渡し方法について比較する
+https://qiita.com/Kosei-Yoshida/items/d7dc37bcde3a52cb5265
+
+イベント関数の実行順序
+https://docs.unity3d.com/ja/2018.4/Manual/ExecutionOrder.html
+
+【Unity】Time.deltaTimeの正しい使い方わかってる？適当に掛ければいいてもんじゃない！
+https://qiita.com/toRisouP/items/930100e25e666494fcd6
+
+【Unity】簡単にできるグラフィックを向上させる設定方法！【Post Processing, Lighting】
+https://umistudioblog.com/graphicup/#toc2
+
+【Unity】オブジェクトを光らせよう！マテリアルを発光させる方法
+https://umistudioblog.com/emissionobject/
+
+オブジェクトを綺麗にピタッと配置する方法【Unity】
+https://obecogames.com/obj_move_v/
 
 
 
