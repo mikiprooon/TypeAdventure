@@ -15,6 +15,9 @@ public class TypingSystemController : MonoBehaviour
     private PlayerStats _playerStats; // PlayerStatsへの参照
     private PlayerController _playerController; //playerControllerへの参照
 
+    [SerializeField] private GameObject _scoreManager; // ScoreManagerオブジェクト
+    private ScoreManager _sm; // ScoreManagerへの参照
+
 
     void Start(){
         //PlayerControllerへの参照を取得
@@ -31,6 +34,9 @@ public class TypingSystemController : MonoBehaviour
         _answer = _targetEnemyTextController.GetAnswerText();
         _currentCharIndex = 0; // 文字数を初期化
         _targetEnemyTextController.ChangeTextColorBasic();
+
+        _sm = _scoreManager.GetComponent<ScoreManager>(); // ScoreManagerへの参照
+
     }
 
     // タイピングの処理
@@ -74,6 +80,8 @@ public class TypingSystemController : MonoBehaviour
             // 正解した文字を灰色にする
             _targetEnemyTextController.ChangeTextColorCorrect(_currentCharIndex);
         }
+        // 正解タイプ数+1
+        _sm.AddCorrectType();
     }
 
     // 間違ったキーの時の処理
@@ -83,5 +91,8 @@ public class TypingSystemController : MonoBehaviour
         AudioManager.Instance.PlaySound(AudioManager.Instance.missSound);
         // 間違えた字を赤くする
         _targetEnemyTextController.ChangeTextColorWrong(_currentCharIndex);
+
+        // ミスタイプ数+1
+        _sm.AddMissType();
     }
 }

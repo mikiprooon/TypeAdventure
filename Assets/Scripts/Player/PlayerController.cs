@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private EnemyGenerator _enemyGenerator; // EnemyGeneratorの参照
 
     private TypingSystemController _typingSystemController; // TypingSystemへの参照
+    private ScoreManager _scoreManager; // ScoreManagerへの参照
 
     void Start()
     {
@@ -22,10 +23,7 @@ public class PlayerController : MonoBehaviour
         // EnemyGeneratorへの参照
         _enemyGenerator = FindObjectOfType<EnemyGenerator>();
 
-        // // // 最も近い位置にいるenemyをtargetに設定
-        // // SearchClosestEnemy();
-        // // // タイピングシステムの開始
-        // // _typingSystemController.StartTyping(_targetEnemy);
+        _scoreManager = FindObjectOfType<ScoreManager>();
 
     }
 
@@ -44,6 +42,8 @@ public class PlayerController : MonoBehaviour
             }
 
             Debug.Log("target: " + _targetEnemy);
+            // タイピング時間を加算
+            _scoreManager.AddTypingModeTime();
             
         }
         else{ // 移動モードの時
@@ -123,5 +123,11 @@ public class PlayerController : MonoBehaviour
     // targetの消滅を外部から設定できるようにする
     public void DeleteTarget(){
         _targetEnemy = null;
+    }
+
+    // タイピングモードか否かを取得
+    // ScoreMangerで使用
+    public bool GetTypingModeFlag(){
+        return _typeModeFlag;
     }
 }

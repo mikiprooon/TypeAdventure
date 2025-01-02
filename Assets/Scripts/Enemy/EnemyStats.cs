@@ -12,6 +12,7 @@ public class EnemyStats : MonoBehaviour{
     private string _qText, _aText, _mText; // 問題(漢字)、解答(ローマ字)、読み方(ひらがな)
 
     private EnemyGenerator _enemyGenerator; // EnemyGeneratorへの参照
+    private ScoreManager _scoreManager; // ScoreManagerへの参照
 
     private bool _isAlive = true; // Enemyが生きていたらtrue、一度削除されたらfalse
     // 初期化メソッド
@@ -30,6 +31,8 @@ public class EnemyStats : MonoBehaviour{
     {
         // EnemyGeneratorを取得
         _enemyGenerator = FindObjectOfType<EnemyGenerator>();
+        // ScoreManagerを取得
+        _scoreManager = FindObjectOfType<ScoreManager>();
         
     }
 
@@ -42,6 +45,7 @@ public class EnemyStats : MonoBehaviour{
             AudioManager.Instance.PlaySound(AudioManager.Instance.defeatSound);
             _enemyGenerator.RemoveEnemy(gameObject);
             _isAlive = false;
+            _scoreManager.AddDefeatCount(); // 撃破数+1
         }
         
     }

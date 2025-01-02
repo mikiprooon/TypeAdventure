@@ -34,6 +34,9 @@ https://www.sejuku.net/blog/54672
 【Unity初歩】~敵を増殖させる~
 https://qiita.com/usomaru/items/5b933fa5f6e3c608472c
 
+敵の頭上にHPバーを実装してみる
+https://qiita.com/sakas1231/items/9acd52828204b13c93f1
+
 
 
 
