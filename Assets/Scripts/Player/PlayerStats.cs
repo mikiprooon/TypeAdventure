@@ -20,6 +20,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     private int _hp; // HP
+    private int _maxHp; // 最大HP
     private int _attack; // 攻撃力
     private float _moveSpeed; // 移動速度
     private float _rotationSpeed = 120.0f; // 回転速度
@@ -27,6 +28,7 @@ public class PlayerStats : MonoBehaviour
     // 初期化メソッド
     public void Initialize(int hp, int attack, float moveSpeed){
         _hp = hp;       // HPを設定
+        _maxHp = hp; // 最大HPを設定
         _attack = attack; // 攻撃力を設定
         _moveSpeed = moveSpeed; // スピードを設定
     }
@@ -72,6 +74,11 @@ public class PlayerStats : MonoBehaviour
     // プレイヤーのHPを設定
     public void SetHP(int hp) {
         _hp = hp;
+    }
+
+    // プレイヤーの最大HPを取得
+    public int GetMaxHP() {
+        return _maxHp;
     }
 
     // プレイヤーの速度を取得

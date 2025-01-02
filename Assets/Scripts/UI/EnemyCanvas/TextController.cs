@@ -35,15 +35,15 @@ public class TextController : MonoBehaviour
     void Start()
     {
         // Imageをカメラに向けると反転するので、あらかじめ180度回す
-        transform.localScale = new Vector3 (-1, 1, 1); 
-        _mainCamera = Camera.main; // メインカメラを取得
+        //transform.localScale = new Vector3 (-1, 1, 1); 
+        //_mainCamera = Camera.main; // メインカメラを取得
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(_mainCamera.transform); //Imageが常にカメラの方を向くようにする
+        //transform.LookAt(_mainCamera.transform); //Imageが常にカメラの方を向くようにする
     }
 
     // 正解した時に文字を灰色にする

@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour{
 
     private int _hp; // HP
+    private int _maxHp; // 最大HPを設定
     private int _attack; // 攻撃力
     private float _speed; // スピード
     private string _qText, _aText, _mText; // 問題(漢字)、解答(ローマ字)、読み方(ひらがな)
@@ -16,6 +17,7 @@ public class EnemyStats : MonoBehaviour{
     // 初期化メソッド
     public void Initialize(int hp, int attack, float speed, string qText, string aText, string mText){
         _hp = hp;       // HPを設定
+        _maxHp = hp; // 最大HPを設定
         _attack = attack; // 攻撃力を設定
         _speed = speed; // スピードを設定
         _qText = qText; // 問題文を設定
@@ -49,6 +51,14 @@ public class EnemyStats : MonoBehaviour{
         _hp -= damage;
     }
 
+    // HPのゲッター
+    public int GetHP(){
+        return _hp;
+    }
+    // 最大HPのゲッター
+    public int GetMaxHP(){
+        return _maxHp;
+    }
     // 攻撃力のゲッター
     public int GetAttack(){
         return _attack;
