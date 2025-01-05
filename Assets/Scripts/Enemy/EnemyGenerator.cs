@@ -5,13 +5,18 @@ using UnityEngine;
 // EnemyをPrefabから自動生成する
 public class EnemyGenerator : MonoBehaviour{
     [SerializeField] GameObject _enemyPrefab; // 敵キャラクタのPrefab
-    private int _initialEnemyCount = 3; // 初期生成数
+    private int _initialEnemyCount = 20; // 初期生成数
     private float _spawnAreaSize = 20.0f; // 敵の生成範囲
+
+    // Player関連の参照
     [SerializeField] private GameObject _player;
     private PlayerController _playerController;
 
     private List<GameObject> _enemies = new List<GameObject>(); // 全Enemyを保持するリスト
     private WordDatabase _wordDatabase; // 問題文を管理するデータベース
+
+    private List<Vector3> _spawnPositionList = new List<Vector3>();
+    private GameObject[] _spawnPositionArray;
 
     private void Start()
     {   
@@ -25,19 +30,47 @@ public class EnemyGenerator : MonoBehaviour{
             return;
         }
 
+        // Floorタグのオブジェクトを全て取得
+        _spawnPositionArray = GameObject.FindGameObjectsWithTag("Floor");
+        // ListにFloorの位置を保存
+        foreach(GameObject floor in _spawnPositionArray){
+            _spawnPositionList.Add(floor.transform.position + new Vector3(0f, 0.14f, 0f));
+        }
+
+        
+
         // 初期生成
         for (int i = 0; i <_initialEnemyCount; i++){
             SpawnEnemy(GetRandomPosition());
-            
         }
     }
 
+    // void Update(){
+    //     Debug.Log("削除後Count: " + _spawnPositionList.Count);
+    // }
+
     // ランダムな位置を取得する
-    private Vector3 GetRandomPosition()
+    public Vector3 GetRandomPosition()
     {
-        float x = Random.Range(-_spawnAreaSize, _spawnAreaSize);
-        float z = Random.Range(-_spawnAreaSize, _spawnAreaSize);
-        return new Vector3(x, 0.007f, z);
+        Debug.Log("削除前Count: " + _spawnPositionList.Count);
+        // スポーン場所を決める
+        int index = Random.Range(0, _spawnPositionList.Count);
+        // スポーン場所が被らないように選ばれた場所は削除
+        Vector3 position = _spawnPositionList[index];
+        _spawnPositionList.Remove(_spawnPositionList[index]);
+
+        Debug.Log("index: " + index);
+        Debug.Log("削除後Count: " + _spawnPositionList.Count);
+        
+        return position;
+    }
+
+    public List<Vector3> GetOtherPositions(){
+        return _spawnPositionList;
+    }
+
+    public void DeletePosition(Vector3 position){
+        _spawnPositionList.Remove(position);
     }
 
     // PrefabからEnemyを生成する
@@ -55,7 +88,7 @@ public class EnemyGenerator : MonoBehaviour{
             // HP = 1、speed = 3.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 1; // 攻撃力は1
-            float speed = 3.0f;         // 初期スピードは固定
+            float speed = 30.0f;         // 初期スピードは固定
             stats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定

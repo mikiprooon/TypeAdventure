@@ -63,6 +63,10 @@ public class EnemyStats : MonoBehaviour{
     public int GetMaxHP(){
         return _maxHp;
     }
+    // スピードのゲッター
+    public float GetSpeed(){
+        return _speed;
+    }
     // 攻撃力のゲッター
     public int GetAttack(){
         return _attack;

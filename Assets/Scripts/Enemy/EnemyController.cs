@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour
         if(_enemyStats == null){
             // EnemyStatsを取得
             _enemyStats = GetComponent<EnemyStats>();
+            _agent.speed = _enemyStats.GetSpeed();
         }
         // playerとの距離を計算
         distance = Vector3.Distance(_player.transform.position, transform.position);
@@ -64,15 +65,31 @@ public class EnemyController : MonoBehaviour
             // 目的地へ行く
             MoveToNextPosition(_initialDestination[_currentTargetPositionIndex]); 
         }
+        Debug.Log("----------------------------------------");
+        Debug.Log("現在地: " + transform.position);
+        Debug.Log("目的地: " + _agent.destination);
+        Debug.Log("停止距離: " + _agent.remainingDistance);
+        Debug.Log("速度: " + _agent.velocity);
         
     }
 
     // 初期の目的地をランダムに設定
     void SetRandomInitialDestinations(){
-        _initialDestination[0] = GetRandomNavMeshPosition(); // ランダムな位置を取得
-        //_initialDestination[0] = transform.position;
-        _initialDestination[1] = GetRandomNavMeshPosition(); // もう1つランダムな位置を取得
+        //_initialDestination[0] = GetRandomNavMeshPosition(); // ランダムな位置を取得
+        //_initialDestination[1] = GetRandomNavMeshPosition(); // もう1つランダムな位置を取得
+        _initialDestination[0] = transform.position;
+        List<Vector3> position = new List<Vector3>();
+        position = _enemyGenerator.GetOtherPositions();
+        int index = Random.Range(0, position.Count);
+        Vector3 p = position[index];
+        _initialDestination[1] = p;
+        _enemyGenerator.DeletePosition(p);
+        Debug.Log("destination1: " + _initialDestination[0]);
+        Debug.Log("destination2: " + _initialDestination[1]);
+        //_initialDestination[1] = transform.position;
+        //_initialDestination[1] = _enemyGenerator.GetRandomPosition();
     }
+
 
     // ランダムなNavMesh上の位置を取得
     Vector3 GetRandomNavMeshPosition(){

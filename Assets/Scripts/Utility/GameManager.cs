@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // シングルトンパターン
 
-    private int _sceneNumber = 1; // シーンの番号
+    private int _sceneNumber = 3; // シーンの番号
 
     private void Awake(){
         if (Instance == null){

@@ -21,7 +21,7 @@ public class EnemyCanvasController : MonoBehaviour
 
     void Update()
     {
-        // カメラの方に向ける
+        // カメラの方に向け
         transform.LookAt(_mainCameraTransform);
 
     }

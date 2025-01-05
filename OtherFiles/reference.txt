@@ -58,5 +58,19 @@ https://umistudioblog.com/emissionobject/
 オブジェクトを綺麗にピタッと配置する方法【Unity】
 https://obecogames.com/obj_move_v/
 
+制限時間を過ぎたらスコアを共有しリザルト画面を表示する【Unity】
+https://goodlucknetlife.com/unity-targetgame-result/
+
+【Unity初歩】~ゲームクリアシーンを作る~
+https://qiita.com/usomaru/items/d8c0f77ef31db5369e3e
+
+KeyCode
+https://docs.unity3d.com/ja/2022.1/ScriptReference/KeyCode.html
+
+Low Poly Free Dungeon Pack
+https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-free-dungeon-pack-191979#description
+
+Unityはじめるよ〜NavMesh基礎〜
+https://monolizm.com/sab/pdf/第26回_プレゼン資料(Unityはじめるよ～NavMesh基礎～).pdf
 
 
