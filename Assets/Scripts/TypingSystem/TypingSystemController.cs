@@ -50,7 +50,7 @@ public class TypingSystemController : MonoBehaviour
             return;
         }
 
-        Debug.Log("何文字目: " + _currentCharIndex);
+
         // 入力されたキーが答えと一致しているなら
         if (Input.GetKeyDown(_answer[_currentCharIndex].ToString())){
             InputCorrecKey(); // 正しい時の処理
@@ -63,7 +63,7 @@ public class TypingSystemController : MonoBehaviour
 
     // 正しいキーの時の処理
     private void InputCorrecKey(){
-        Debug.Log("正解");
+
 
         // 攻撃音
         AudioManager.Instance.PlaySound(AudioManager.Instance.attackSound);
@@ -93,7 +93,7 @@ public class TypingSystemController : MonoBehaviour
 
     // 間違ったキーの時の処理
     private void InputWrongKey(){
-        Debug.Log("不正解");
+
         // ミス音
         AudioManager.Instance.PlaySound(AudioManager.Instance.missSound);
         // 間違えた字を赤くする

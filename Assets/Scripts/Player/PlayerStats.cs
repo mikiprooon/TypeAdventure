@@ -51,7 +51,8 @@ public class PlayerStats : MonoBehaviour
     void Update(){
         // HPが0以下でゲームオーバー
         if(_hp <= 0){
-            Debug.Log("GameOver");
+            
+            GameManager.Instance.PlayerIsDeath();
         }
     }
 
@@ -59,7 +60,7 @@ public class PlayerStats : MonoBehaviour
     // playerの被ダメージ
     public void DamageToPlayer(int damage){
         _hp -= damage; // damageの分HPを減らす
-        Debug.Log("HP: "+ _hp);
+        
     }
 
     // Playerの攻撃力

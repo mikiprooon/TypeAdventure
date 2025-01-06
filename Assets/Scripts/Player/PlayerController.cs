@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour
             else{ 
                 SearchClosestEnemy();
             }
-
-            Debug.Log("target: " + _targetEnemy);
             // タイピング時間を加算
             _scoreManager.AddTypingModeTime();
             
@@ -81,7 +79,6 @@ public class PlayerController : MonoBehaviour
             EnemyStats enemyStats = _targetEnemy.GetComponent<EnemyStats>();
             if (enemyStats != null){
                 string aText = enemyStats.GetAText(); // _aTextを取得
-                Debug.Log("保有する文字: " + aText); // _aTextを表示するメソッド
                 // ターゲットの方を向く
                 transform.LookAt(new Vector3(_targetEnemy.transform.position.x, transform.position.y, _targetEnemy.transform.position.z));
             }

@@ -10,18 +10,18 @@ public class GoalTrigger : MonoBehaviour
     }
     // Playerと衝突したら、
     private void OnTriggerEnter(Collider other){
-        if (other.CompareTag("Player")){
-            if(GameManager.Instance.GetSceneNumber() == 1){
-                GameManager.Instance.Load2ndScene();
-            }
-            else if(GameManager.Instance.GetSceneNumber() == 2){
-                GameManager.Instance.Load3rdScene();
-            }
-            else if(GameManager.Instance.GetSceneNumber() == 3){
-                GameManager.Instance.LoadResultScene();
-            }
+        // if (other.CompareTag("Player")){
+        //     if(GameManager.Instance.GetSceneNumber() == 1){
+        //         GameManager.Instance.Load2ndScene();
+        //     }
+        //     else if(GameManager.Instance.GetSceneNumber() == 2){
+        //         GameManager.Instance.Load3rdScene();
+        //     }
+        //     else if(GameManager.Instance.GetSceneNumber() == 3){
+        //         GameManager.Instance.LoadResultScene();
+        //     }
             
-        }
+        // }
     }
 }
 

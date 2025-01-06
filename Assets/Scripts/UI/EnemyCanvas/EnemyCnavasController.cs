@@ -12,9 +12,7 @@ public class EnemyCanvasController : MonoBehaviour
         if (Camera.main != null){
             _mainCameraTransform = Camera.main.transform;
         }
-        else{
-            Debug.LogError("Main Camera がシーンに見つかりません");
-        }
+
         // カメラに向けると反転するので、あらかじめ180度回す
         transform.localScale = new Vector3 (-1, 1, 1);
     }

@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // シングルトンパターン
+    // プレイ中か否か
+    private bool _isPlaying = false;
+    // ゲームクリアでtrue
+    private bool _isClear = false;
+    // ゲームオーバーでtrue
+    private bool _isFailed = false;
 
-    private int _sceneNumber = 3; // シーンの番号
+    public static GameManager Instance; // シングルトンパターン
 
     private void Awake(){
         if (Instance == null){
@@ -18,28 +24,43 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    // 2ndSceneへ遷移
-    public void Load2ndScene(){
-        _sceneNumber = 2;
-        Debug.Log("Playerが2ndに到達しました！");
-        SceneManager.LoadScene("SecondStageScene"); // ResultSceneに遷移
+
+    void Update(){
+        if(_isClear){
+            LoadClearScene();
+        }
+        else if(_isFailed){
+            LoadFailedScene();
+        }
     }
 
-    // 3rdSceneへ遷移
-    public void Load3rdScene(){
-        _sceneNumber = 3;
-        Debug.Log("Playerが3rdに到達しました！");
-        SceneManager.LoadScene("ThirdStageScene"); // ResultSceneに遷移
+    // playerのHPが0の時にPlayerStatsで呼び出す
+    public void PlayerIsDeath(){
+        _isFailed = true;
     }
-
-    // ResultSceneへ遷移
-    public void LoadResultScene(){
-        Debug.Log("PlayerがGoalに到達しました！");
-        SceneManager.LoadScene("ResultScene"); // ResultSceneに遷移
+    // BossEnemyのHPが0の時にBossStatsで呼び出す
+    public void BossIsDeath(){
+        _isClear = true;
     }
-
-    public int GetSceneNumber(){
-        return _sceneNumber;
+    // FailedSceneへ遷移
+    public void LoadClearScene(){
+        _isClear = false;
+        SceneManager.LoadScene("ClearScene"); // ResultSceneに遷移
     }
+    // FailedSceneへ遷移
+    public void LoadFailedScene(){
+        _isFailed = false;
+        SceneManager.LoadScene("FailedScene"); // ResultSceneに遷移
+    }
+    // SampleSceneへ遷移
+    public void LoadSampleScene(){
+        
+        SceneManager.LoadScene("SampleScene"); // ResultSceneに遷移
+    }
+    // StartSceneへ遷移
+    public void LoadStartScene(){
+        SceneManager.LoadScene("StartScene"); // ResultSceneに遷移
+    }
+    
 }
 

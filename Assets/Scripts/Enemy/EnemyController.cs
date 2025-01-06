@@ -29,8 +29,6 @@ public class EnemyController : MonoBehaviour
         _agent = GetComponent<UnityEngine.AI.NavMeshAgent>(); // NavMeshAgentコンポーネントを取得
         // 初期目的地を設定
         SetRandomInitialDestinations();
-        Debug.Log("初期位置1: " + _initialDestination[0]);
-        Debug.Log("初期位置2: " + _initialDestination[1]);
     }
 
     // Update is called once per frame
@@ -65,11 +63,7 @@ public class EnemyController : MonoBehaviour
             // 目的地へ行く
             MoveToNextPosition(_initialDestination[_currentTargetPositionIndex]); 
         }
-        Debug.Log("----------------------------------------");
-        Debug.Log("現在地: " + transform.position);
-        Debug.Log("目的地: " + _agent.destination);
-        Debug.Log("停止距離: " + _agent.remainingDistance);
-        Debug.Log("速度: " + _agent.velocity);
+        
         
     }
 
@@ -84,8 +78,6 @@ public class EnemyController : MonoBehaviour
         Vector3 p = position[index];
         _initialDestination[1] = p;
         _enemyGenerator.DeletePosition(p);
-        Debug.Log("destination1: " + _initialDestination[0]);
-        Debug.Log("destination2: " + _initialDestination[1]);
         //_initialDestination[1] = transform.position;
         //_initialDestination[1] = _enemyGenerator.GetRandomPosition();
     }
@@ -110,7 +102,6 @@ public class EnemyController : MonoBehaviour
 
     // 衝突時の処理
     private void OnPlayerCollision(){
-        Debug.Log("Playerと衝突しました！");
 
         
         // Playerにダメージを与える

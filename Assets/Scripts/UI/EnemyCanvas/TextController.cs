@@ -15,20 +15,33 @@ public class TextController : MonoBehaviour
     private string _qText; // 問題文
     private string _mText; // 読み方
 
+    // このスクリプトがアタッチされているキャラクタを保存
+    [SerializeField] private GameObject _enemy;
     // 親オブジェクトのEnemyStatsを取得
     private EnemyStats _enemyStats;
+    // 親オブジェクトのBossStatsを取得
+    private BossStats _bossStats;
 
     private Camera _mainCamera; // プレイヤのカメラ
 
     private void Awake(){
-        // 親オブジェクトにあるEnemyStatsを取得
-        _enemyStats = GetComponentInParent<EnemyStats>();
-        Debug.Log("Awake()時点でのaText: " + _enemyStats.GetAText());
-        
-
-        if (_enemyStats == null){
-            Debug.LogError("親オブジェクトにEnemyStatsが見つかりません！");
+        // Enemyにアタッチされていれば
+        if(_enemy.tag == "Enemy"){
+            // 親オブジェクトにあるEnemyStatsを取得
+            _enemyStats = GetComponentInParent<EnemyStats>();
+            
         }
+        // Bossにアタッチされていれば
+        else if(_enemy.tag == "Boss"){
+            // 親オブジェクトにあるBossStatsを取得
+            _bossStats = GetComponentInParent<BossStats>();
+            
+        
+        }
+
+        // if (_enemyStats == null){
+        //     Debug.LogError("親オブジェクトにEnemyStatsが見つかりません！");
+        // }
     }
 
     // Start is called before the first frame update
@@ -70,10 +83,19 @@ public class TextController : MonoBehaviour
     }
 
     public void SetText(){
-        //答え用の変数に保存
-        _aText = _enemyStats.GetAText();
-        _qText = _enemyStats.GetQText(); 
-        _mText = _enemyStats.GetMText(); 
+        if(_enemy.tag == "Enemy"){
+            //答え用の変数に保存
+            _aText = _enemyStats.GetAText();
+            _qText = _enemyStats.GetQText(); 
+            _mText = _enemyStats.GetMText(); 
+        }
+        else if(_enemy.tag == "Boss"){
+            //答え用の変数に保存
+            _aText = _bossStats.GetAText();
+            _qText = _bossStats.GetQText(); 
+            _mText = _bossStats.GetMText(); 
+        }
+        
         // TMPに答え、問題、読み方を設定
         aTmpText.text = _aText; 
         qTmpText.text = _qText; 

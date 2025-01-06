@@ -5,7 +5,7 @@ using UnityEngine;
 // EnemyをPrefabから自動生成する
 public class EnemyGenerator : MonoBehaviour{
     [SerializeField] GameObject _enemyPrefab; // 敵キャラクタのPrefab
-    private int _initialEnemyCount = 20; // 初期生成数
+    private int _initialEnemyCount = 3; // 初期生成数
     private float _spawnAreaSize = 20.0f; // 敵の生成範囲
 
     // Player関連の参照
@@ -15,8 +15,13 @@ public class EnemyGenerator : MonoBehaviour{
     private List<GameObject> _enemies = new List<GameObject>(); // 全Enemyを保持するリスト
     private WordDatabase _wordDatabase; // 問題文を管理するデータベース
 
-    private List<Vector3> _spawnPositionList = new List<Vector3>();
-    private GameObject[] _spawnPositionArray;
+    private List<Vector3> _enemySpawnPositionList = new List<Vector3>();
+    private GameObject[] _enemySpawnPositionArray;
+
+    [SerializeField] GameObject _bossPrefab; // ボスキャラクタのPrefab
+    private GameObject _boss; // ボスのゲームオブジェクト
+    private Vector3 _bossSpawnPosition; // ボスの出現場所
+    private GameObject _bossFloor; // ボスのいる部屋
 
     private void Start()
     {   
@@ -31,46 +36,45 @@ public class EnemyGenerator : MonoBehaviour{
         }
 
         // Floorタグのオブジェクトを全て取得
-        _spawnPositionArray = GameObject.FindGameObjectsWithTag("Floor");
+        _enemySpawnPositionArray = GameObject.FindGameObjectsWithTag("Floor");
         // ListにFloorの位置を保存
-        foreach(GameObject floor in _spawnPositionArray){
-            _spawnPositionList.Add(floor.transform.position + new Vector3(0f, 0.14f, 0f));
+        foreach(GameObject floor in _enemySpawnPositionArray){
+            _enemySpawnPositionList.Add(floor.transform.position + new Vector3(0f, 0.14f, 0f));
         }
 
+        // BossFloorオブジェクトを取得
+        _bossFloor = GameObject.FindWithTag("BossFloor");
+        // ボスのスポーン位置を取得
+        _bossSpawnPosition = _bossFloor.transform.position; 
         
 
-        // 初期生成
+        // Enemy初期生成
         for (int i = 0; i <_initialEnemyCount; i++){
             SpawnEnemy(GetRandomPosition());
         }
+        // Boss初期生成
+        //SpawnBoss(_bossSpawnPosition);
     }
 
-    // void Update(){
-    //     Debug.Log("削除後Count: " + _spawnPositionList.Count);
-    // }
 
     // ランダムな位置を取得する
     public Vector3 GetRandomPosition()
     {
-        Debug.Log("削除前Count: " + _spawnPositionList.Count);
         // スポーン場所を決める
-        int index = Random.Range(0, _spawnPositionList.Count);
+        int index = Random.Range(0, _enemySpawnPositionList.Count);
         // スポーン場所が被らないように選ばれた場所は削除
-        Vector3 position = _spawnPositionList[index];
-        _spawnPositionList.Remove(_spawnPositionList[index]);
-
-        Debug.Log("index: " + index);
-        Debug.Log("削除後Count: " + _spawnPositionList.Count);
+        Vector3 position = _enemySpawnPositionList[index];
+        _enemySpawnPositionList.Remove(_enemySpawnPositionList[index]);
         
         return position;
     }
 
     public List<Vector3> GetOtherPositions(){
-        return _spawnPositionList;
+        return _enemySpawnPositionList;
     }
 
     public void DeletePosition(Vector3 position){
-        _spawnPositionList.Remove(position);
+        _enemySpawnPositionList.Remove(position);
     }
 
     // PrefabからEnemyを生成する
@@ -88,18 +92,39 @@ public class EnemyGenerator : MonoBehaviour{
             // HP = 1、speed = 3.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 1; // 攻撃力は1
-            float speed = 30.0f;         // 初期スピードは固定
+            float speed = 3.0f;         // 初期スピードは固定
             stats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定
             TextController textController = newEnemy.GetComponentInChildren<TextController>(); // TextControllerを子オブジェクトから取得
             textController.SetText(); // TextControllerのSetText()を呼び出して、表示内容を更新
-            Debug.Log($"Enemy生成: HP={hp}, Speed={speed}, 問題={qText}, 解答={aText}, 読み方={mText}");
         }
-        else
-        {
-            Debug.LogError("EnemyStatsがEnemyPrefabにアタッチされていません！");
+     
+    }
+
+    private void SpawnBoss(Vector3 position){
+        // Prefabから新しいEnemyを生成
+        _boss = Instantiate(_bossPrefab, position, Quaternion.identity);
+
+        // EnemyStatsを初期化
+        BossStats bossStats = _boss.GetComponent<BossStats>();
+        if (bossStats != null){
+            // ランダムに問題文を取得
+            (string qText, string aText, string mText) = _wordDatabase.GetNormalRandomWord();
+
+            // HP = 文字数、speed = 10.0で初期化
+            int hp = aText.Length; // HPは文字数
+            int attack = 3; // 攻撃力は3
+            float speed = 10.0f;         // 初期スピードは固定
+            bossStats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
+
+            // 表示するテキストの設定
+            TextController textController = _boss.GetComponentInChildren<TextController>(); // TextControllerを子オブジェクトから取得
+            textController.SetText(); // TextControllerのSetText()を呼び出して、表示内容を更新
+            
         }
+
+
     }
 
     // Enemyを削除する
@@ -107,11 +132,8 @@ public class EnemyGenerator : MonoBehaviour{
         if (_enemies.Contains(enemy)){
             _enemies.Remove(enemy);
             Destroy(enemy);
-            Debug.Log($"Enemyを削除しました。現在のEnemy数: {_enemies.Count}");
         }
-        else{
-            Debug.LogWarning("削除しようとしたEnemyがリストに存在しません。");
-        }
+
     }
 
     // 全Enemyを取得

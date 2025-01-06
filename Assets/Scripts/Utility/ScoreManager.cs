@@ -43,10 +43,7 @@ public class ScoreManager : MonoBehaviour
         //     _secondsOfTypingMode += Time.deltaTime;
         // }
 
-        Debug.Log("タイピング時間: " + _secondsOfTypingMode);
-        Debug.Log("正解数: " + _numOfCorrectType);
-        Debug.Log("ミス数: " + _numOfMissType);
-        Debug.Log("撃破数: " + _numOfDefeat);
+        
     }
 
     // タイプ数/秒を計算し出力
