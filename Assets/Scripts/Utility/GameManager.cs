@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // プレイ中か否か
-    private bool _isPlaying = false;
+    private bool _isBossBattle = false;
     // ゲームクリアでtrue
     private bool _isClear = false;
     // ゲームオーバーでtrue
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         else if(_isFailed){
             LoadFailedScene();
         }
+
     }
 
     // playerのHPが0の時にPlayerStatsで呼び出す
@@ -41,6 +42,10 @@ public class GameManager : MonoBehaviour
     // BossEnemyのHPが0の時にBossStatsで呼び出す
     public void BossIsDeath(){
         _isClear = true;
+    }
+    // Boss戦になったらBossBattleManagerで呼び出す
+    public void StartBossBattle(){
+        _isBossBattle = true;
     }
     // FailedSceneへ遷移
     public void LoadClearScene(){
@@ -54,12 +59,18 @@ public class GameManager : MonoBehaviour
     }
     // SampleSceneへ遷移
     public void LoadSampleScene(){
-        
+        GameObject scoreManager = GameObject.FindWithTag("ScoreManager");
+        ScoreManager sm = scoreManager.GetComponent<ScoreManager>();
+        sm.SetInitialize();
         SceneManager.LoadScene("SampleScene"); // ResultSceneに遷移
     }
     // StartSceneへ遷移
     public void LoadStartScene(){
         SceneManager.LoadScene("StartScene"); // ResultSceneに遷移
+    }
+
+    public bool GetIsBossBattle(){
+        return _isBossBattle;
     }
     
 }

@@ -7,6 +7,7 @@ public class BossController : MonoBehaviour
     private float _collisionRange = 2.0f; // 衝突とみなす距離
     private float _chaseRange = 15.0f; // playerを追跡する距離
     private float distance; // playerとの距離
+    private bool _isChasing = false; // Playerを追跡しているか
 
     private GameObject _player; // Player
     private PlayerStats _playerStats; // PlayerStatsへの参照
@@ -31,7 +32,7 @@ public class BossController : MonoBehaviour
         _agent = GetComponent<UnityEngine.AI.NavMeshAgent>(); // NavMeshAgentコンポーネントを取得
         // 初期目的地を設定
         //SetRandomInitialDestinations();
-
+        _isChasing = false;
 
         // 初期位置を保存
         _initialPosition = transform.position;
@@ -60,6 +61,7 @@ public class BossController : MonoBehaviour
         }
         // 距離が規定以下で追いかける
         else if (distance <= _chaseRange){
+            _isChasing = true;
             // playerのいる位置へ動く
             MoveToNextPosition(_player.transform.position);
         }
@@ -145,4 +147,7 @@ public class BossController : MonoBehaviour
         _agent.SetDestination(destination);
     }
 
+    public bool GetIsChasing(){
+        return _isChasing;
+    }
 }

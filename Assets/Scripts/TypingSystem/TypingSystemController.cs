@@ -11,12 +11,13 @@ public class TypingSystemController : MonoBehaviour
     private GameObject _targetEnemy; // ターゲットのEnemy
     private TextController _targetEnemyTextController; // ターゲットの持つTextControlerへの参照
     private EnemyStats _targetEnemyStats; // targetのEnemyStats
+    private BossStats _targetBossStats; // targetBossのBossStats
 
     [SerializeField] private GameObject _player; //Player
     private PlayerStats _playerStats; // PlayerStatsへの参照
     private PlayerController _playerController; //playerControllerへの参照
 
-    [SerializeField] private GameObject _scoreManager; // ScoreManagerオブジェクト
+    private GameObject _scoreManager; // ScoreManagerオブジェクト
     private ScoreManager _sm; // ScoreManagerへの参照
 
 
@@ -25,21 +26,34 @@ public class TypingSystemController : MonoBehaviour
         _playerController = _player.GetComponent<PlayerController>(); 
         //PlayerStatsへの参照を取得
         _playerStats = _player.GetComponent<PlayerStats>(); 
+        // ScoreManagerを取得
+        _scoreManager = GameObject.FindWithTag("ScoreManager");
+        _sm = _scoreManager.GetComponent<ScoreManager>();
     }
     // タイピング開始時に呼び出すメソッド
     public void StartTyping(GameObject targetEnemy){
         _targetEnemy = targetEnemy; // ターゲットのオブジェクトを取得
+        if(_targetEnemy.tag == "Enemy"){
+            // ターゲットのEnemyStatsを取得
+            _targetEnemyStats = _targetEnemy.GetComponent<EnemyStats>();
+            // 最大HP - 今のHPが、今入力している文字数
+            _currentCharIndex = _targetEnemyStats.GetMaxHP() - _targetEnemyStats.GetHP(); 
+        }
+        else if(_targetEnemy.tag == "Boss"){
+            // ターゲットのEnemyStatsを取得
+            _targetBossStats = _targetEnemy.GetComponent<BossStats>();
+            // 最大HP - 今のHPが、今入力している文字数
+            _currentCharIndex = _targetBossStats.GetMaxHP() - _targetBossStats.GetHP(); 
+        }
         // ターゲットのTextControllerを取得
         _targetEnemyTextController = _targetEnemy.transform.Find("Canvas/Image").GetComponent<TextController>();
-        // ターゲットのEnemyStatsを取得
-        _targetEnemyStats = _targetEnemy.GetComponent<EnemyStats>();
         // ターゲットの正解文を取得
         _answer = _targetEnemyTextController.GetAnswerText();
-        // 最大HP - 今のHPが、今入力している文字数
-        _currentCharIndex = _targetEnemyStats.GetMaxHP() - _targetEnemyStats.GetHP(); 
         //_targetEnemyTextController.ChangeTextColorBasic();
+        Debug.Log("正解分: " + _answer);
+        Debug.Log("何文字目: " + _currentCharIndex);
 
-        _sm = _scoreManager.GetComponent<ScoreManager>(); // ScoreManagerへの参照
+        //_sm = _scoreManager.GetComponent<ScoreManager>(); // ScoreManagerへの参照
 
     }
 
@@ -50,10 +64,10 @@ public class TypingSystemController : MonoBehaviour
             return;
         }
 
-
         // 入力されたキーが答えと一致しているなら
         if (Input.GetKeyDown(_answer[_currentCharIndex].ToString())){
-            InputCorrecKey(); // 正しい時の処理
+            InputCorrectKey(); // 正しい時の処理
+            
         }
         // 間違えた入力なら
         else if (Input.anyKeyDown){
@@ -62,16 +76,22 @@ public class TypingSystemController : MonoBehaviour
     }
 
     // 正しいキーの時の処理
-    private void InputCorrecKey(){
-
+    private void InputCorrectKey(){
 
         // 攻撃音
         AudioManager.Instance.PlaySound(AudioManager.Instance.attackSound);
         // 最後の文字を打ち終えたら
         if (_currentCharIndex + 1 >= _answer.Length){
             
-            // Enemyに攻撃力分のダメージ
-            _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
+            if(_targetEnemy.tag == "Enemy"){
+                // Enemyに攻撃力分のダメージ
+                _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
+            }
+            else if(_targetEnemy.tag == "Boss"){
+                // Bossに攻撃力分のダメージ
+                _targetBossStats.DamageToEnemy(_playerStats.GetAttack());
+            }
+
 
             // インデックスと解答を初期化
             _currentCharIndex = 0; 
@@ -80,8 +100,14 @@ public class TypingSystemController : MonoBehaviour
         }
         // 最後の文字でなければ
         else{
-            // Enemyに攻撃力分のダメージ
-            _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
+            if(_targetEnemy.tag == "Enemy"){
+                // Enemyに攻撃力分のダメージ
+                _targetEnemyStats.DamageToEnemy(_playerStats.GetAttack());
+            }
+            else if(_targetEnemy.tag == "Boss"){
+                // Bossに攻撃力分のダメージ
+                _targetBossStats.DamageToEnemy(_playerStats.GetAttack());
+            }
             
             _currentCharIndex++; // インデックスを+1
             // 正解した文字を灰色にする

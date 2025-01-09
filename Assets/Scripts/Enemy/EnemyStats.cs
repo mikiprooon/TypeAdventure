@@ -43,9 +43,13 @@ public class EnemyStats : MonoBehaviour{
         if(_hp <= 0 && _isAlive){
             // 敵を倒した音
             AudioManager.Instance.PlaySound(AudioManager.Instance.defeatSound);
-            _enemyGenerator.RemoveEnemy(gameObject);
             _isAlive = false;
             _scoreManager.AddDefeatCount(); // 撃破数+1
+            // Enemyを倒したらEnemyをListから消去
+            _enemyGenerator.RemoveEnemy(gameObject);
+
+
+            
         }
         
     }

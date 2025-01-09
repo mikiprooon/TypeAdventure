@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FailedSceneManager : MonoBehaviour
+public class ResultSceneManager : MonoBehaviour
 {
     [SerializeField] private Button _replayButton; // ボタンの参照
 

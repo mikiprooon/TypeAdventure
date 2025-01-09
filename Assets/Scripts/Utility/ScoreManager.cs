@@ -43,7 +43,17 @@ public class ScoreManager : MonoBehaviour
         //     _secondsOfTypingMode += Time.deltaTime;
         // }
 
-        
+        // Debug.Log("タイピングモードの時間: " + _secondsOfTypingMode);
+        // Debug.Log("倒した敵の数: " + _numOfDefeat);
+    }
+
+    // ステージシーンが読み込まれた時に全てを初期化する
+    public void SetInitialize(){
+        _secondsOfTypingMode = 0;
+        _numOfDefeat = 0;
+        _numOfCorrectType = 0;
+        _numOfMissType = 0;
+        _totalScore = 0;
     }
 
     // タイプ数/秒を計算し出力

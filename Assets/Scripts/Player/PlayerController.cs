@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     private PlayerStats _playerStats; // PlayerStatsへの参照
-    private bool _typeModeFlag = false; // Trueでタイピング、Falseで移動モード
+    private bool _isTypeMode = false; // Trueでタイピング、Falseで移動モード
 
     private GameObject _targetEnemy; // 現在のターゲットEnemy
     private bool _isLookTarget = false; // ターゲットを持っているならtrue、いないならfalse
     private EnemyGenerator _enemyGenerator; // EnemyGeneratorの参照
+
+    private GameObject _targetBoss;
 
     private TypingSystemController _typingSystemController; // TypingSystemへの参照
     private ScoreManager _scoreManager; // ScoreManagerへの参照
@@ -16,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerStats = PlayerStats.Instance; // シングルトンインスタンスからPlayerStatsを取得
-        _playerStats.Initialize(10, 1, 8.0f);  // PlayerStatsの初期化(HP, attack, speed)
+        _playerStats.Initialize(1, 1, 8.0f);  // PlayerStatsの初期化(HP, attack, speed)
 
         // TypingSystemControllerへの参照
         _typingSystemController = FindObjectOfType<TypingSystemController>();
@@ -31,17 +33,36 @@ public class PlayerController : MonoBehaviour
     {
         TypeModeToggle(); // タイプモードの切り替えを処理
 
-        if (_typeModeFlag){ // タイピングモードの時
-            // targetがいるならtypingを行う
-            if(_targetEnemy != null){
-                _typingSystemController.HandleTyping();
+        if (_isTypeMode){ // タイピングモードの時
+            // ボス戦の時
+            if(GameManager.Instance.GetIsBossBattle()){
+                // targetがいるならtypingを行う
+                if(_targetEnemy != null){
+                    _typingSystemController.HandleTyping();
+                }
+                // targetがいないなら探す
+                else{ 
+                    _targetEnemy = GameObject.FindWithTag("Boss");
+                    _typingSystemController.StartTyping(_targetEnemy);
+                }
             }
-            // targetがいないなら探す
-            else{ 
-                SearchClosestEnemy();
+            // 通常の時
+            else{
+                // targetがいるならtypingを行う
+                if(_targetEnemy != null){
+                    _typingSystemController.HandleTyping();
+                    Debug.Log("target: " + _targetEnemy);
+                    Debug.Log("target text: " + _targetEnemy.GetComponent<EnemyStats>().GetAText());
+                }
+                // targetがいないなら探す
+                else{ 
+                    SearchClosestEnemy();
+                }
+                
             }
             // タイピング時間を加算
             _scoreManager.AddTypingModeTime();
+            
             
         }
         else{ // 移動モードの時
@@ -49,6 +70,8 @@ public class PlayerController : MonoBehaviour
             HandleMovement(); // 平行移動
             HandleRotation(); // 回転
         }
+
+        Debug.Log("Player: " + transform.position);
     }
 
     // Enemyを倒した時、またはtabキーを押した時にターゲットを変える
@@ -75,15 +98,22 @@ public class PlayerController : MonoBehaviour
         }
         // targetがいるなら
         if(_targetEnemy != null){
-            // 最も近いEnemyの_aTextを取得して表示
-            EnemyStats enemyStats = _targetEnemy.GetComponent<EnemyStats>();
-            if (enemyStats != null){
-                string aText = enemyStats.GetAText(); // _aTextを取得
-                // ターゲットの方を向く
-                transform.LookAt(new Vector3(_targetEnemy.transform.position.x, transform.position.y, _targetEnemy.transform.position.z));
-            }
+            // // 最も近いEnemyの_aTextを取得して表示
+            // EnemyStats enemyStats = _targetEnemy.GetComponent<EnemyStats>();
+            // if (enemyStats != null){
+            //     string aText = enemyStats.GetAText(); // _aTextを取得
+            //     // ターゲットの方を向く
+            //     transform.LookAt(new Vector3(_targetEnemy.transform.position.x, transform.position.y, _targetEnemy.transform.position.z));
+            // }
             // タイピングシステムを開始
             _typingSystemController.StartTyping(_targetEnemy);
+            // ターゲットの方を向く
+            transform.LookAt(new Vector3(_targetEnemy.transform.position.x, transform.position.y, _targetEnemy.transform.position.z));
+        }
+        // targetがいないなら
+        else{
+            // 移動モードにする
+            _isTypeMode = false;
         }
         
     }
@@ -91,8 +121,8 @@ public class PlayerController : MonoBehaviour
     // タイピングと移動モードを切り替える
     private void TypeModeToggle(){
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)){
-            _typeModeFlag = !_typeModeFlag; // TrueとFalseを切り替える
-            if (!_typeModeFlag){ // 移動モードになった時 
+            _isTypeMode = !_isTypeMode; // TrueとFalseを切り替える
+            if (!_isTypeMode){ // 移動モードになった時 
                 _targetEnemy = null; // targetを初期化
             }
             
@@ -114,7 +144,7 @@ public class PlayerController : MonoBehaviour
     // 回転処理
     private void HandleRotation(){
         if (Input.GetKey(KeyCode.A)) transform.Rotate(0, -_playerStats.GetRotationSpeed() * Time.deltaTime, 0);
-        else if (Input.GetKey(KeyCode.S)) transform.Rotate(0, _playerStats.GetRotationSpeed() * Time.deltaTime, 0);
+        else if (Input.GetKey(KeyCode.F)) transform.Rotate(0, _playerStats.GetRotationSpeed() * Time.deltaTime, 0);
     }
 
     // targetの消滅を外部から設定できるようにする
@@ -124,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
     // タイピングモードか否かを取得
     // ScoreMangerで使用
-    public bool GetTypingModeFlag(){
-        return _typeModeFlag;
+    public bool GetIsTypeMode(){
+        return _isTypeMode;
     }
 }

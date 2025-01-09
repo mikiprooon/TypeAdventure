@@ -73,4 +73,13 @@ https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-free-dun
 Unityはじめるよ〜NavMesh基礎〜
 https://monolizm.com/sab/pdf/第26回_プレゼン資料(Unityはじめるよ～NavMesh基礎～).pdf
 
+Unity】カメラの切り替えをスクリプトで実現しよう！｜Camera入門②
+https://xr-hub.com/archives/6038
+
+
+
+
+
+
+
 

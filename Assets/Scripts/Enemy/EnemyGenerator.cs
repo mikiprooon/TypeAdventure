@@ -5,7 +5,7 @@ using UnityEngine;
 // EnemyをPrefabから自動生成する
 public class EnemyGenerator : MonoBehaviour{
     [SerializeField] GameObject _enemyPrefab; // 敵キャラクタのPrefab
-    private int _initialEnemyCount = 3; // 初期生成数
+    private int _initialEnemyCount = 20; // 初期生成数
     private float _spawnAreaSize = 20.0f; // 敵の生成範囲
 
     // Player関連の参照
@@ -53,7 +53,7 @@ public class EnemyGenerator : MonoBehaviour{
             SpawnEnemy(GetRandomPosition());
         }
         // Boss初期生成
-        //SpawnBoss(_bossSpawnPosition);
+        SpawnBoss(_bossSpawnPosition);
     }
 
 
@@ -92,7 +92,7 @@ public class EnemyGenerator : MonoBehaviour{
             // HP = 1、speed = 3.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 1; // 攻撃力は1
-            float speed = 3.0f;         // 初期スピードは固定
+            float speed = 1.0f;         // 初期スピードは固定
             stats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定
@@ -115,7 +115,7 @@ public class EnemyGenerator : MonoBehaviour{
             // HP = 文字数、speed = 10.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 3; // 攻撃力は3
-            float speed = 10.0f;         // 初期スピードは固定
+            float speed = 3.0f;         // 初期スピードは固定
             bossStats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定
