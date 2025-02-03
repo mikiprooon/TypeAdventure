@@ -10,6 +10,7 @@ TagManager:
   - Boss
   - Trick
   - SubCamera
+  - ScoreManager
   layers:
   - Default
   - TransparentFX

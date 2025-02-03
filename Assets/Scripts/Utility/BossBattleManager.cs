@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossBattleManager : MonoBehaviour
 {   
-    [SerializeField] private GameObject _player; // Playerへの参照
     private GameObject _bossEnemy; // Bossへの参照
     private BossController _bossController; // BossControllerへの参照
 

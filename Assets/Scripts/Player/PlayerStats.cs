@@ -44,6 +44,11 @@ public class PlayerStats : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject); // シーンを跨いでも破棄されないようにする
         }
+
+        // _hp = 15;
+        // _maxHp = _hp;
+        // _attack = 1;
+        // _moveSpeed = 8.0f;
         
     }
 
@@ -51,7 +56,7 @@ public class PlayerStats : MonoBehaviour
     void Update(){
         // HPが0以下でゲームオーバー
         if(_hp <= 0){
-            
+            Debug.Log("Player Death");
             GameManager.Instance.PlayerIsDeath();
         }
     }

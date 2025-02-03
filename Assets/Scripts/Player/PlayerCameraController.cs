@@ -66,6 +66,7 @@ public class PlayerCameraController : MonoBehaviour
         if(_playerController.GetIsTypeMode()){ 
             _mainCamera.SetActive(false);
             _subCamera.SetActive(true);
+            //_subCamera.transform.position = new Vector3(transform.position.x, _playerController.GetTargetTextPosition().y - 1.5f, transform.position.z);
         }
         // 移動モードの時
         else{ 

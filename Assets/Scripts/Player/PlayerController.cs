@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerStats = PlayerStats.Instance; // シングルトンインスタンスからPlayerStatsを取得
-        _playerStats.Initialize(1, 1, 8.0f);  // PlayerStatsの初期化(HP, attack, speed)
+        _playerStats.Initialize(15, 1, 8.0f);  // PlayerStatsの初期化(HP, attack, speed)
 
         // TypingSystemControllerへの参照
         _typingSystemController = FindObjectOfType<TypingSystemController>();
@@ -145,6 +145,8 @@ public class PlayerController : MonoBehaviour
     private void HandleRotation(){
         if (Input.GetKey(KeyCode.A)) transform.Rotate(0, -_playerStats.GetRotationSpeed() * Time.deltaTime, 0);
         else if (Input.GetKey(KeyCode.F)) transform.Rotate(0, _playerStats.GetRotationSpeed() * Time.deltaTime, 0);
+        // if (Input.GetKey(KeyCode.A)) transform.Rotate(0, -1f, 0);
+        // else if (Input.GetKey(KeyCode.F)) transform.Rotate(0, 1f, 0);
     }
 
     // targetの消滅を外部から設定できるようにする
@@ -156,5 +158,24 @@ public class PlayerController : MonoBehaviour
     // ScoreMangerで使用
     public bool GetIsTypeMode(){
         return _isTypeMode;
+    }
+
+    public Vector3 GetTargetTextPosition(){
+        if(GameManager.Instance.GetIsBossBattle()){
+            if(_targetBoss != null){
+                return _targetBoss.GetComponentInChildren<Canvas>().transform.position;
+            }
+            else{
+                return transform.position;
+            }
+        }
+        else{
+            if(_targetEnemy != null){
+                return _targetEnemy.GetComponentInChildren<Canvas>().transform.position;
+            }
+            else{
+                return transform.position;
+            }
+        }
     }
 }

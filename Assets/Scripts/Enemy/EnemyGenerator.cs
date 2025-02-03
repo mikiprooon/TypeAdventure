@@ -87,12 +87,12 @@ public class EnemyGenerator : MonoBehaviour{
         EnemyStats stats = newEnemy.GetComponent<EnemyStats>();
         if (stats != null){
             // ランダムに問題文を取得
-            (string qText, string aText, string mText) = _wordDatabase.GetNormalRandomWord();
+            (string qText, string aText, string mText) = _wordDatabase.GetRandomWord(GameManager.Instance.GetLevel());
 
             // HP = 1、speed = 3.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 1; // 攻撃力は1
-            float speed = 1.0f;         // 初期スピードは固定
+            float speed = 1.5f;         // 初期スピードは固定
             stats.Initialize(hp, attack, speed, qText, aText, mText); // 初期化
 
             // 表示するテキストの設定
@@ -110,8 +110,9 @@ public class EnemyGenerator : MonoBehaviour{
         BossStats bossStats = _boss.GetComponent<BossStats>();
         if (bossStats != null){
             // ランダムに問題文を取得
-            (string qText, string aText, string mText) = _wordDatabase.GetNormalRandomWord();
+            (string qText, string aText, string mText) = _wordDatabase.GetBossRandomWord(GameManager.Instance.GetLevel());
 
+            Debug.Log("Boss text: " + aText);
             // HP = 文字数、speed = 10.0で初期化
             int hp = aText.Length; // HPは文字数
             int attack = 3; // 攻撃力は3

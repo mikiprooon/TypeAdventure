@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     private bool _isClear = false;
     // ゲームオーバーでtrue
     private bool _isFailed = false;
+    // レベル、1でかんたん、2でふつう、3でむずかしい、4で超むずかしい、5でスペシャル
+    private int _level = 0;
 
     public static GameManager Instance; // シングルトンパターン
 
@@ -47,14 +49,29 @@ public class GameManager : MonoBehaviour
     public void StartBossBattle(){
         _isBossBattle = true;
     }
+    // Boss戦かどうかPlayerControllerで判断する
+    public bool GetIsBossBattle(){
+        return _isBossBattle;
+    }
+    // 押されたボタンによってレベルを変えるため、StartSceneManagerで呼ぶ
+    public void SetLevel(int level){
+        _level = level;
+    }
+    // レベルによってEnemyGeneratorで設定する単語を変える
+    public int GetLevel(){
+        return _level;
+    }
+
     // FailedSceneへ遷移
     public void LoadClearScene(){
         _isClear = false;
+        _isBossBattle = false;
         SceneManager.LoadScene("ClearScene"); // ResultSceneに遷移
     }
     // FailedSceneへ遷移
     public void LoadFailedScene(){
         _isFailed = false;
+        _isBossBattle = false;
         SceneManager.LoadScene("FailedScene"); // ResultSceneに遷移
     }
     // SampleSceneへ遷移
@@ -62,6 +79,7 @@ public class GameManager : MonoBehaviour
         GameObject scoreManager = GameObject.FindWithTag("ScoreManager");
         ScoreManager sm = scoreManager.GetComponent<ScoreManager>();
         sm.SetInitialize();
+        _isBossBattle = false;
         SceneManager.LoadScene("SampleScene"); // ResultSceneに遷移
     }
     // StartSceneへ遷移
@@ -69,9 +87,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("StartScene"); // ResultSceneに遷移
     }
 
-    public bool GetIsBossBattle(){
-        return _isBossBattle;
-    }
+    
     
 }
 

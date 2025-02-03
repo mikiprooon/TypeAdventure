@@ -41,6 +41,7 @@ public class BossStats : MonoBehaviour{
     {
         // Bossが生きている時、HPが0以下でゲームクリア
         if(_hp <= 0 && _isAlive){
+            Debug.Log("Boss is Death");
             // 敵を倒した音
             AudioManager.Instance.PlaySound(AudioManager.Instance.defeatSound);
             _isAlive = false;
