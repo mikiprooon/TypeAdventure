@@ -60,7 +60,7 @@ public class TypingSystemController : MonoBehaviour
     // タイピングの処理
     public void HandleTyping(){
         // ctrlキーが押されている場合、タイピング処理をスキップ
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)){
+        if (Input.GetKey(KeyCode.Space)){
             return;
         }
 

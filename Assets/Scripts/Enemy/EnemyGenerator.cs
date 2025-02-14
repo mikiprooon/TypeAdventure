@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour{
     [SerializeField] GameObject _enemyPrefab; // 敵キャラクタのPrefab
     private int _initialEnemyCount = 20; // 初期生成数
-    private float _spawnAreaSize = 20.0f; // 敵の生成範囲
 
     // Player関連の参照
     [SerializeField] private GameObject _player;

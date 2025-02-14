@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     private bool _isTypeMode = false; // Trueでタイピング、Falseで移動モード
 
     private GameObject _targetEnemy; // 現在のターゲットEnemy
-    private bool _isLookTarget = false; // ターゲットを持っているならtrue、いないならfalse
     private EnemyGenerator _enemyGenerator; // EnemyGeneratorの参照
 
     private GameObject _targetBoss;
@@ -39,6 +38,7 @@ public class PlayerController : MonoBehaviour
                 // targetがいるならtypingを行う
                 if(_targetEnemy != null){
                     _typingSystemController.HandleTyping();
+                    transform.LookAt(new Vector3(_targetEnemy.transform.position.x, transform.position.y, _targetEnemy.transform.position.z));
                 }
                 // targetがいないなら探す
                 else{ 
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
     // タイピングと移動モードを切り替える
     private void TypeModeToggle(){
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)){
+        if (Input.GetKeyDown(KeyCode.Space)){
             _isTypeMode = !_isTypeMode; // TrueとFalseを切り替える
             if (!_isTypeMode){ // 移動モードになった時 
                 _targetEnemy = null; // targetを初期化
@@ -132,19 +132,24 @@ public class PlayerController : MonoBehaviour
     // 移動処理
     private void HandleMovement(){
         Vector3 moveDirection = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.UpArrow)) moveDirection += transform.forward;
-        if (Input.GetKey(KeyCode.DownArrow)) moveDirection -= transform.forward;
-        if (Input.GetKey(KeyCode.RightArrow)) moveDirection += transform.right;
-        if (Input.GetKey(KeyCode.LeftArrow)) moveDirection -= transform.right;
+        // Eで前、Wで後ろ、Fで右、Aで左移動
+        if (Input.GetKey(KeyCode.E)) moveDirection += transform.forward;
+        if (Input.GetKey(KeyCode.W)) moveDirection -= transform.forward;
+        if (Input.GetKey(KeyCode.F)) moveDirection += transform.right;
+        if (Input.GetKey(KeyCode.A)) moveDirection -= transform.right;
 
         transform.position += moveDirection.normalized * _playerStats.GetMoveSpeed() * Time.deltaTime;
     }
 
     // 回転処理
     private void HandleRotation(){
-        if (Input.GetKey(KeyCode.A)) transform.Rotate(0, -_playerStats.GetRotationSpeed() * Time.deltaTime, 0);
-        else if (Input.GetKey(KeyCode.F)) transform.Rotate(0, _playerStats.GetRotationSpeed() * Time.deltaTime, 0);
+        // Oで右、Iで左回転
+        if (Input.GetKey(KeyCode.I)){
+            transform.Rotate(0, -_playerStats.GetRotationSpeed() * Time.deltaTime, 0);
+        } 
+        else if (Input.GetKey(KeyCode.O)){
+            transform.Rotate(0, _playerStats.GetRotationSpeed() * Time.deltaTime, 0);
+        }
         // if (Input.GetKey(KeyCode.A)) transform.Rotate(0, -1f, 0);
         // else if (Input.GetKey(KeyCode.F)) transform.Rotate(0, 1f, 0);
     }

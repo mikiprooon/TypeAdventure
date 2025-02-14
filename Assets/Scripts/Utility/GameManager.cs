@@ -87,6 +87,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("StartScene"); // ResultSceneに遷移
     }
 
+    // ExplainSceneへ遷移
+    public void LoadExplainScene(){
+        SceneManager.LoadScene("ExplainScene"); // ResultSceneに遷移
+    }
+
     
     
 }

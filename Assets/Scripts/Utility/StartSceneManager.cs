@@ -10,6 +10,7 @@ public class StartSceneManager : MonoBehaviour
     [SerializeField] private Button _hardButton; // むずかしいボタンの参照
     [SerializeField] private Button _veryhardButton; // 超むずかしいボタンの参照
     [SerializeField] private Button _specialButton; // スペシャルボタンの参照
+    [SerializeField] private Button _explainButton; // あそびかたボタンの参照
 
     void Start()
     {
@@ -32,6 +33,10 @@ public class StartSceneManager : MonoBehaviour
         // ボタンのクリックイベントにメソッドを登録
         if ( _specialButton != null){
              _specialButton.onClick.AddListener(OnSpecialButtonClicked);
+        }
+        // ボタンのクリックイベントにメソッドを登録
+        if ( _explainButton != null){
+             _explainButton.onClick.AddListener(OnExplainButtonClicked);
         }
 
     }
@@ -87,6 +92,16 @@ public class StartSceneManager : MonoBehaviour
         // GameManagerのインスタンスを介してシーンをロード
         if (GameManager.Instance != null){
             GameManager.Instance.LoadSampleScene();
+        }
+
+    }
+
+    // ボタンがクリックされたときに呼び出されるメソッド
+    private void OnExplainButtonClicked()
+    {
+        // GameManagerのインスタンスを介してシーンをロード
+        if (GameManager.Instance != null){
+            GameManager.Instance.LoadExplainScene();
         }
 
     }
