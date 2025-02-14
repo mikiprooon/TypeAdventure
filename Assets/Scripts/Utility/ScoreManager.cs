@@ -58,13 +58,29 @@ public class ScoreManager : MonoBehaviour
 
     // タイプ数/秒を計算し出力
     public float GetTypesPerSecond(){
-        return _numOfCorrectType / _secondsOfTypingMode;
+        // 一度はタイピングした時
+        if(_secondsOfTypingMode != 0){
+            return _numOfCorrectType / _secondsOfTypingMode;
+        }
+        // 一度もタイピングしていない時
+        else{
+            return 0;
+        }
+        
     }
 
     // トータルスコアを計算し出力
     public float GetTotalScore(){
-        _totalScore = _numOfCorrectType / _secondsOfTypingMode * 10.0f
+        // 一回はタイプした時
+        if(_secondsOfTypingMode != 0){
+            _totalScore = _numOfCorrectType / _secondsOfTypingMode * 10.0f
                     + _numOfDefeat * 5.0f - _numOfMissType * 5.0f;
+        }
+        // 一度もタイプしていない時
+        else{
+            _totalScore = 0;
+        }
+        
         
         return _totalScore;
     }
